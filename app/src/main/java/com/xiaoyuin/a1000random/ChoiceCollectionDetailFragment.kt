@@ -1,0 +1,36 @@
+package com.xiaoyuin.a1000random
+
+import androidx.lifecycle.ViewModelProviders
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+
+class ChoiceCollectionDetailFragment : Fragment() {
+
+    companion object {
+        fun newInstance() = ChoiceCollectionDetailFragment()
+    }
+
+    private lateinit var viewModel: ChoiceCollectionDetailViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_choices_detail, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProviders.of(this).get(ChoiceCollectionDetailViewModel::class.java)
+        // TODO: Use the ViewModel
+    }
+
+}
