@@ -1,31 +1,55 @@
 package com.xiaoyuin.a1000random
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import androidx.navigation.NavOptionsBuilder
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import androidx.navigation.navOptions
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private val navController by lazy { findNavController(R.id.nav_host_fragment) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        val slideAnimOptions = navOptions {
+            anim {
+                enter = R.anim.slide_in_right
+                exit = R.anim.slide_out_left
+                popEnter = R.anim.slide_in_left
+                popExit = R.anim.slide_out_right
+            }
+        }
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            findNavController(R.id.nav_host_fragment).navigate(R.id.action_mainFragment_to_choicesFragment)
+            navController.currentDestination?.let {
+                if (it.id == R.id.mainFragment) {
+                    navController.navigate(R.id.action_mainFragment_to_choicesFragment, null, slideAnimOptions)
+                } else if (it.id == R.id.choicesFragment) {
+                    navController.navigate(R.id.action_choicesFragment_to_addChoicesFragment, null, slideAnimOptions)
+                }
+            }
         }
 
-        setupActionBarWithNavController(findNavController(R.id.nav_host_fragment))
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id in arrayOf(R.id.mainFragment, R.id.choicesFragment)) {
+                fab.show()
+            } else {
+                fab.hide()
+            }
+        }
+
+        setupActionBarWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return findNavController(R.id.nav_host_fragment).navigateUp() || super.onSupportNavigateUp()
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
