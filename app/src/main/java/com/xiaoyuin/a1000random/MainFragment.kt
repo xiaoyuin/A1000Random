@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.xiaoyuin.a1000random.data.ChoiceCollectionRepository
 import com.xiaoyuin.a1000random.data.ChoiceCollectionRepositoryImpl
+import com.xiaoyuin.a1000random.data.SavedChoiceMaker
 import com.xiaoyuin.a1000random.data.TestData
 import kotlinx.android.synthetic.main.fragment_main.*
 
@@ -33,14 +35,17 @@ class MainFragment : Fragment() {
 
         with(main_recycler_view) {
             layoutManager = StaggeredGridLayoutManager(1, RecyclerView.VERTICAL)
-            adapter = SavedChoiceMakerAdapter(choiceCollectionRepo)
-
+            adapter = SavedChoiceMakerAdapter(choiceCollectionRepo) {
+                val navDirection = it.maker.getNavDirection(it)
+                findNavController().navigate(navDirection)
+            }
         }
     }
 }
 
 class SavedChoiceMakerAdapter(
-    private val choiceCollectionRepo: ChoiceCollectionRepository
+    private val choiceCollectionRepo: ChoiceCollectionRepository,
+    private val onItemClicked: (SavedChoiceMaker) -> Unit
 ) : RecyclerView.Adapter<SavedChoiceMakerAdapter.ViewHolder>() {
 
     val testSavedChoiceMakers = listOf(TestData.savedChoiceMaker1, TestData.savedChoiceMaker2)
@@ -61,6 +66,7 @@ class SavedChoiceMakerAdapter(
         holder.titleTextView.text = savedChoiceMaker.title
         holder.choicesTextView.text = "Choose from: ${choiceCollection?.choices?.joinToString { it.text }}"
         holder.makerTextView.text = savedChoiceMaker.maker.name
+        holder.itemView.setOnClickListener { onItemClicked.invoke(savedChoiceMaker) }
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

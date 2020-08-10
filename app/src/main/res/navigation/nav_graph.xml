@@ -42,7 +42,11 @@
         android:id="@+id/numberRandomActivity2"
         android:name="com.xiaoyuin.a1000random.makers.NumberRandomActivity"
         android:label="Random Number"
-        tools:layout="@layout/activity_number_random" />
+        tools:layout="@layout/activity_number_random" >
+        <argument
+            android:name="savedChoiceMakerId"
+            app:argType="string" />
+    </activity>
     <fragment
         android:id="@+id/editChoicesFragment"
         android:label="Edit Choices"
