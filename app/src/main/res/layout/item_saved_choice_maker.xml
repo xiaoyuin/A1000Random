@@ -18,7 +18,7 @@
             android:id="@+id/title_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             tools:text="Choose Android StandUp Hero" />
 
         <TextView
@@ -28,7 +28,7 @@
             android:maxLines="3"
             android:ellipsize="end"
             android:paddingTop="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             tools:text="Choose from: X1, X2, X3" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             tools:text="by Example Maker" />
 
     </LinearLayout>
